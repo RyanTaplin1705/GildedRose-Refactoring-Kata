@@ -17,17 +17,17 @@ public class GildedRoseTest {
     public static final String BACKSTAGE_PASSES_TO_A_TAFKAL80_ETC_CONCERT_STRING = "Backstage passes to a TAFKAL80ETC concert";
 
     @Test
-    public void itemQualityIsNeverLessThanZero() throws Exception {
-        GildedRose gildedRose = givenOurAppHasItems(new Item(ANY_ITEM, 0, MIN_QUALITY));
+    public void regularItemQualityDecreasesByOneWhenSellInIsGreaterThanZero() throws Exception {
+        GildedRose gildedRose = givenOurAppHasItems(new Item(REGULAR_ITEM_STRING, 25, 50));
         whenWeUpdateProducts(gildedRose);
-        assertThat(gildedRose.items[0].quality).isGreaterThanOrEqualTo(MIN_QUALITY);
+        assertThat(gildedRose.items[0].quality).isEqualTo(49);
     }
 
     @Test
-    public void itemQualityDoesNotExceedFifty() throws Exception {
-        GildedRose gildedRose = givenOurAppHasItems(new Item(ANY_ITEM, 0, MAX_QUALITY));
+    public void itemSellInDecreases() throws Exception {
+        GildedRose gildedRose = givenOurAppHasItems(new Item(REGULAR_ITEM_STRING, 0, 50));
         whenWeUpdateProducts(gildedRose);
-        assertThat(gildedRose.items[0].quality).isLessThanOrEqualTo(MAX_QUALITY);
+        assertThat(gildedRose.items[0].sellIn).isEqualTo(-1);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class GildedRoseTest {
     }
 
     @Test
-    public void backStagePassQualityIncreasesByTwoWhenSellInIsGreaterThanFive() throws Exception {
+    public void backStagePassQualityIncreasesByTwoWhenSellInIsTenOrLess() throws Exception {
         GildedRose gildedRose = givenOurAppHasItems(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80_ETC_CONCERT_STRING, 10, 5));
         whenWeUpdateProducts(gildedRose);
         assertThat(gildedRose.items[0].quality).isEqualTo(7);
@@ -84,6 +84,20 @@ public class GildedRoseTest {
         GildedRose gildedRose = givenOurAppHasItems(new Item(BACKSTAGE_PASSES_TO_A_TAFKAL80_ETC_CONCERT_STRING, 0, 0));
         whenWeUpdateProducts(gildedRose);
         assertThat(gildedRose.items[0].quality).isEqualTo(0);
+    }
+
+    @Test
+    public void itemQualityIsNeverLessThanZero() throws Exception {
+        GildedRose gildedRose = givenOurAppHasItems(new Item(ANY_ITEM, 0, MIN_QUALITY));
+        whenWeUpdateProducts(gildedRose);
+        assertThat(gildedRose.items[0].quality).isGreaterThanOrEqualTo(MIN_QUALITY);
+    }
+
+    @Test
+    public void itemQualityDoesNotExceedFifty() throws Exception {
+        GildedRose gildedRose = givenOurAppHasItems(new Item(ANY_ITEM, 0, MAX_QUALITY));
+        whenWeUpdateProducts(gildedRose);
+        assertThat(gildedRose.items[0].quality).isLessThanOrEqualTo(MAX_QUALITY);
     }
 
     private GildedRose givenOurAppHasItems(Item... items) {
