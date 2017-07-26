@@ -1,37 +1,18 @@
 package com.gildedrose;
 
-import com.gildedrose.model.Item;
-
-import static com.gildedrose.ItemQuality.decreaseItemQuality;
-import static com.gildedrose.ItemQuality.increaseItemQuality;
-import static com.gildedrose.ItemSellIn.attemptAtDecreasingSellIn;
-import static com.gildedrose.ItemSellIn.isExpired;
-import static com.gildedrose.ItemValidation.isAgedBrie;
-import static com.gildedrose.ItemValidation.isBackStagePass;
+import com.gildedrose.item.AbstractItem;
+import com.gildedrose.item.Item;
 
 class GildedRose {
-    Item[] items;
+    AbstractItem[] items;
 
-    public GildedRose(Item[] items) {
+    public GildedRose(AbstractItem[] items) {
         this.items = items;
     }
 
     public void updateQuality() {
         for(Item item : items) {
-            attemptAtDecreasingSellIn(item);
-            changeQuality(item);
+            item.update();
         }
-    }
-
-    private void changeQuality(Item item) {
-        if (valuesWithAge(item)) {
-            increaseItemQuality(item);
-        } else {
-            decreaseItemQuality(item);
-        }
-    }
-
-    private boolean valuesWithAge(Item item) {
-        return isAgedBrie(item) || (isBackStagePass(item) && !isExpired(item));
     }
 }

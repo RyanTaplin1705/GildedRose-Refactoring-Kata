@@ -1,14 +1,12 @@
-package com.gildedrose.model;
+package com.gildedrose.item;
 
-import com.gildedrose.model.Item;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class ItemTest {
 
-    public static final Item REGULAR_ITEM = new Item("Regular Item", 5, 10);
+    public static final AbstractItem REGULAR_ITEM = new RegularItem("Regular Item", 5, 10);
 
     @Test
     public void itemReturnsCorrectName() throws Exception {
@@ -30,19 +28,15 @@ public class ItemTest {
         assertThat(REGULAR_ITEM.toString()).isEqualTo("Regular Item, 5, 10");
     }
 
-    //TODO: Fix the implementation of item (breaks Kata rule)
-    @Ignore
     @Test
     public void itemCantHaveQualityMoreThanFifty() throws Exception {
-        Item item = new Item("", 0, 999);
+        AbstractItem item = new RegularItem("", 0, 999);
         assertThat(item.quality).isLessThanOrEqualTo(50);
     }
 
-    //TODO: Fix the implementation of item (breaks Kata rule)
-    @Ignore
     @Test
     public void itemCantHaveQualityLessThanZero() throws Exception {
-        Item item = new Item("", 0, -1);
+        AbstractItem item = new RegularItem("", 0, -1);
         assertThat(item.quality).isGreaterThanOrEqualTo(0);
     }
 }
