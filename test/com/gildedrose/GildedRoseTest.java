@@ -3,18 +3,12 @@ package com.gildedrose;
 import com.gildedrose.model.Item;
 import org.junit.Test;
 
+import static com.gildedrose.ItemNames.*;
+import static com.gildedrose.ItemQuality.MAX_QUALITY;
+import static com.gildedrose.ItemQuality.MIN_QUALITY;
 import static org.assertj.core.api.Assertions.*;
 
 public class GildedRoseTest {
-
-    public static final int MIN_QUALITY = 0;
-    public static final int MAX_QUALITY = 50;
-
-    public static final String REGULAR_ITEM_STRING = "Regular Item";
-    public static final String AGED_BRIE_STRING = "Aged Brie";
-    public static final String ANY_ITEM = "";
-    public static final String SULFURAS_HAND_OF_RAGNAROS_STRING = "Sulfuras, Hand of Ragnaros";
-    public static final String BACKSTAGE_PASSES_TO_A_TAFKAL80_ETC_CONCERT_STRING = "Backstage passes to a TAFKAL80ETC concert";
 
     @Test
     public void regularItemQualityDecreasesByOneWhenSellInIsGreaterThanZero() throws Exception {
@@ -88,14 +82,14 @@ public class GildedRoseTest {
 
     @Test
     public void itemQualityIsNeverLessThanZero() throws Exception {
-        GildedRose gildedRose = givenOurAppHasItems(new Item(ANY_ITEM, 0, MIN_QUALITY));
+        GildedRose gildedRose = givenOurAppHasItems(new Item(REGULAR_ITEM_STRING, 0, MIN_QUALITY));
         whenWeUpdateProducts(gildedRose);
         assertThat(gildedRose.items[0].quality).isGreaterThanOrEqualTo(MIN_QUALITY);
     }
 
     @Test
     public void itemQualityDoesNotExceedFifty() throws Exception {
-        GildedRose gildedRose = givenOurAppHasItems(new Item(ANY_ITEM, 0, MAX_QUALITY));
+        GildedRose gildedRose = givenOurAppHasItems(new Item(REGULAR_ITEM_STRING, 0, MAX_QUALITY));
         whenWeUpdateProducts(gildedRose);
         assertThat(gildedRose.items[0].quality).isLessThanOrEqualTo(MAX_QUALITY);
     }
